@@ -113,10 +113,15 @@ namespace PlanningPoker.TerminalClient
 
             return Task.FromResult((sessionId, userName));
         }
-        //private bool EveryoneVoted(PokerSession sessionInformation)
-        //{
-
-        //}
+        public virtual Task HandleSessionEnded()
+        {
+            Console.WriteLine("*****");
+            Console.WriteLine("The session ended or you were removed from the session");
+            Console.WriteLine("\nPress enter to continue...");
+            Console.ReadLine();
+            Console.Clear();
+            return Task.CompletedTask;
+        }
         private Task RenderInSessionOptions(PokerSession sessionInformation)
         {
             //if(sessionInformation.StoryPointType)

@@ -31,6 +31,8 @@ namespace PlanningPoker.TerminalClient
 
                 _connection.OnSessionInformationUpdated(SessionInformationUpdated);
                 _connection.OnDisconnected(DisconnectedFromSession);
+
+                _connection.OnSessionEnded(SessionEnded);
             }
         }
         public async Task Start(CancellationTokenSource cancellationTokenSource)
@@ -72,6 +74,11 @@ namespace PlanningPoker.TerminalClient
         private void SessionInformationUpdated(PokerSession sessionInformation)
         {
             _pokerTerminal.RenderStatusInformation(sessionInformation);
+        }
+        private async void SessionEnded()
+        {
+            await _pokerTerminal.HandleSessionEnded();
+            await Start(_cancellationTokenSource);
         }
     }
 }

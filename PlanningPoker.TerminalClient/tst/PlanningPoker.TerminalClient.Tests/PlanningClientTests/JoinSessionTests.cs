@@ -30,14 +30,14 @@ namespace PlanningPoker.TerminalClient.Tests.PlanningClientTests
         [Fact]
         public async void GivenUserElectsToJoinSession_WhenConnectionIsNotEstablished_ThenNewConnectionIsCreated()
         {
-            await _planningClient.Start();
+            await _planningClient.Start(new CancellationTokenSource());
 
             _planningConnectionFactory.Verify(x => x.NewConnection(), Times.Once);
         }
         [Fact]
         public async void GivenUserElectsToJoinSession_WhenJoiningSession_ThenConnectionIsEstablished()
         {
-            await _planningClient.Start();
+            await _planningClient.Start(new CancellationTokenSource());
 
             _pokerConnection.Verify(x => x.Start(It.IsAny<CancellationToken>()), Times.Once);
         }
@@ -49,7 +49,7 @@ namespace PlanningPoker.TerminalClient.Tests.PlanningClientTests
 
             _pokerTerminal.Setup(x => x.GetUserJoinInformation()).Returns(Task.FromResult((sessionId, userName)));
 
-            await _planningClient.Start();
+            await _planningClient.Start(new CancellationTokenSource());
 
             _pokerConnection.Verify(x => x.JoinSession(It.Is<string>(y => y == sessionId), It.Is<string>(y => y == userName)), Times.Once);
         }
